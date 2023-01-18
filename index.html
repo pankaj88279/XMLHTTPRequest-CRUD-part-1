@@ -16,24 +16,25 @@
         <body>
             <div class="container">
                 <div class="row">
-                    <div class="col-4 a_tbdr">A</div>
+                    <div class="col-4 a_tbdr">
+                        
+                    </div>
                     <div class="col-8 a_tbdr">
-                        <table class="table">
+                        <table class="table myusertable">
                             <thead>
                               <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
+                                    <th scope="col">gender</th>
+                                    <th scope="col">email</th>
+                                    <th scope="col">status</th>
+                                    <th scope="col">
+                                        Action
+                                    </th>   
                               </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                  <th>1</th>
-                                  <td>Mark</td>
-                                  <td>Otto</td>
-                                  <td>@mdo</td>
-                                </tr>
+                                
                              </tbody>
                           </table>
                     </div>
@@ -43,16 +44,42 @@
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
         <script>
             let url='https://gorest.co.in';
+            let tbdy=document.querySelector('table.myusertable tbody');
 
          // let object=new ClassName(); 
          let xhr = new XMLHttpRequest();
          xhr.onreadystatechange = function(){
-            if(xhr.readyState==4&&xhr.status==200){
+            if(xhr.readyState == 4 && xhr.status == 200){
+
+                console.log(JSON.parse(xhr.responseText));
+               let users= JSON.parse(xhr.responseText);
+               
+                let tr=``;
+               for (user of users) {
+                console.log(user)
+                          tr += `<tr>
+                                    <th>${user.id}</th>
+                                    <th>${user.name}</th>
+                                    <td>${user.gender}</td>
+                                    <td>${user.email}</td>
+                                    <td>${user.status}</td>
+                                    <td>
+                                        <button class="btn btn-success btn-sm">view</button>
+                                        <button class="btn btn-primary btn-sm">edit</button>
+                                        <button class="btn btn-danger  btn-sm">delete</button>
+                                        </td>
+
+                                  </tr>`;   
+
+           }
+
+           tbdy.innerHTML =tr;
 
             }
          }
          xhr.open("GET",`${url}/public/v2/users`);
-         xhttp.send();
+         xhr.send();
+       
         </script>
       </body>
  </html>
